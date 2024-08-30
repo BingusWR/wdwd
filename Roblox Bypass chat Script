@@ -1,0 +1,131 @@
+local letterToEmoji = {
+    A = "🅐",
+    B = "🅑",
+    C = "🅒",
+    D = "🅓",
+    E = "🅔",
+    F = "🅕",
+    G = "🅖",
+    H = "🅗",
+    I = "🅘",
+    J = "🅙",
+    K = "🅚",
+    L = "🅛",
+    M = "🅜",
+    N = "🅝",
+    O = "🅞",
+    P = "🅟",
+    Q = "🅠",
+    R = "🅡",
+    S = "🅢",
+    T = "🅣",
+    U = "🅤",
+    V = "🅥",
+    W = "🅦",
+    X = "🅧",
+    Y = "🅨",
+    Z = "🅩"
+}
+
+local function convertTextToEmoji(text)
+    local convertedText = ""
+    for i = 1, #text do
+        local char = text:sub(i, i):upper()
+        local emoji = letterToEmoji[char] or char
+        convertedText = convertedText .. emoji
+    end
+    return convertedText
+end
+
+-- LEGACY CHAT SYSTEM HANDLING
+local function setupLegacyChat()
+    local ChatBox = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+
+    local function onTextChanged()
+        local currentText = ChatBox.Text
+        ChatBox.Text = convertTextToEmoji(currentText)
+        ChatBox.CursorPosition = #ChatBox.Text + 1
+    end
+
+    ChatBox:GetPropertyChangedSignal("Text"):Connect(onTextChanged)
+end
+
+-- NEW IN-EXPERIENCE TEXT CHAT SYSTEM HANDLING
+local function setupNewTextChat()
+    local TextChatService = game:GetService("TextChatService")
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+
+    TextChatService.OnIncomingMessage = function(message)
+        if message.TextSource and message.TextSource.UserId == LocalPlayer.UserId then
+            local convertedText = convertTextToEmoji(message.Text)
+            message.Text = convertedText
+        end
+    end
+end
+
+-- Determine which chat system is being used
+local TextChatService = game:GetService("TextChatService")
+
+if TextChatService.ChatVersion then
+    setupNewTextChat()
+else
+    setupLegacyChat()
+end
+
+local letterToEmoji = {
+    A = "🅐",
+    B = "🅑",
+    C = "🅒",
+    D = "🅓",
+    E = "🅔",
+    F = "🅕",
+    G = "🅖",
+    H = "🅗",
+    I = "🅘",
+    J = "🅙",
+    K = "🅚",
+    L = "🅛",
+    M = "🅜",
+    N = "🅝",
+    O = "🅞",
+    P = "🅟",
+    Q = "🅠",
+    R = "🅡",
+    S = "🅢",
+    T = "🅣",
+    U = "🅤",
+    V = "🅥",
+    W = "🅦",
+    X = "🅧",
+    Y = "🅨",
+    Z = "🅩"
+}
+
+local ChatBox = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+
+-- Flag to prevent recursive loops
+local isUpdatingText = false
+
+ChatBox:GetPropertyChangedSignal("Text"):Connect(function()
+    if not isUpdatingText then
+        isUpdatingText = true  -- Set the flag to prevent recursive updates
+        
+        -- Convert the current text to emojis
+        local currentText = ChatBox.Text
+        local convertedText = ""
+        
+        for i = 1, #currentText do
+            local char = currentText:sub(i, i):upper()
+            local emoji = letterToEmoji[char] or char
+            convertedText = convertedText .. emoji
+        end
+        
+        -- Update the ChatBox text with the converted emoji text
+        ChatBox.Text = convertedText
+        
+        -- Reset the cursor position (if necessary)
+        ChatBox.CursorPosition = #convertedText + 1
+        
+        isUpdatingText = false  -- Unset the flag after updating the text
+    end
+end)
