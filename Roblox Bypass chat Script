@@ -1,4 +1,4 @@
-local letterToEmoji = {
+local _0x1234 = {
     A = "🅐",
     B = "🅑",
     C = "🅒",
@@ -27,52 +27,49 @@ local letterToEmoji = {
     Z = "🅩"
 }
 
-local function convertTextToEmoji(text)
-    local convertedText = ""
-    for i = 1, #text do
-        local char = text:sub(i, i):upper()
-        local emoji = letterToEmoji[char] or char
-        convertedText = convertedText .. emoji
+local function _0x5678(_0x9abc)
+    local _0xdef0 = ""
+    for _0x1 = 1, #_0x9abc do
+        local _0x2345 = _0x9abc:sub(_0x1, _0x1):upper()
+        local _0x6789 = _0x1234[_0x2345] or _0x2345
+        _0xdef0 = _0xdef0 .. _0x6789
     end
-    return convertedText
+    return _0xdef0
 end
 
--- LEGACY CHAT SYSTEM HANDLING
-local function setupLegacyChat()
-    local ChatBox = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+local function _0x9876()
+    local _0xabcd = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
 
-    local function onTextChanged()
-        local currentText = ChatBox.Text
-        ChatBox.Text = convertTextToEmoji(currentText)
-        ChatBox.CursorPosition = #ChatBox.Text + 1
+    local function _0x5432()
+        local _0xdef1 = _0xabcd.Text
+        _0xabcd.Text = _0x5678(_0xdef1)
+        _0xabcd.CursorPosition = #_0xabcd.Text + 1
     end
 
-    ChatBox:GetPropertyChangedSignal("Text"):Connect(onTextChanged)
+    _0xabcd:GetPropertyChangedSignal("Text"):Connect(_0x5432)
 end
 
--- NEW IN-EXPERIENCE TEXT CHAT SYSTEM HANDLING
-local function setupNewTextChat()
-    local TextChatService = game:GetService("TextChatService")
-    local LocalPlayer = game:GetService("Players").LocalPlayer
+local function _0x8765()
+    local _0x4321 = game:GetService("TextChatService")
+    local _0x6789 = game:GetService("Players").LocalPlayer
 
-    TextChatService.OnIncomingMessage = function(message)
-        if message.TextSource and message.TextSource.UserId == LocalPlayer.UserId then
-            local convertedText = convertTextToEmoji(message.Text)
-            message.Text = convertedText
+    _0x4321.OnIncomingMessage = function(_0x9999)
+        if _0x9999.TextSource and _0x9999.TextSource.UserId == _0x6789.UserId then
+            local _0xaaa0 = _0x5678(_0x9999.Text)
+            _0x9999.Text = _0xaaa0
         end
     end
 end
 
--- Determine which chat system is being used
-local TextChatService = game:GetService("TextChatService")
+local _0x2346 = game:GetService("TextChatService")
 
-if TextChatService.ChatVersion then
-    setupNewTextChat()
+if _0x2346.ChatVersion then
+    _0x8765()
 else
-    setupLegacyChat()
+    _0x9876()
 end
 
-local letterToEmoji = {
+local _0x6789 = {
     A = "🅐",
     B = "🅑",
     C = "🅒",
@@ -101,31 +98,26 @@ local letterToEmoji = {
     Z = "🅩"
 }
 
-local ChatBox = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+local _0x4567 = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
 
--- Flag to prevent recursive loops
-local isUpdatingText = false
+local _0x7890 = false
 
-ChatBox:GetPropertyChangedSignal("Text"):Connect(function()
-    if not isUpdatingText then
-        isUpdatingText = true  -- Set the flag to prevent recursive updates
+_0x4567:GetPropertyChangedSignal("Text"):Connect(function()
+    if not _0x7890 then
+        _0x7890 = true
         
-        -- Convert the current text to emojis
-        local currentText = ChatBox.Text
-        local convertedText = ""
+        local _0x0123 = _0x4567.Text
+        local _0x4568 = ""
         
-        for i = 1, #currentText do
-            local char = currentText:sub(i, i):upper()
-            local emoji = letterToEmoji[char] or char
-            convertedText = convertedText .. emoji
+        for _0x5678 = 1, #_0x0123 do
+            local _0x7891 = _0x0123:sub(_0x5678, _0x5678):upper()
+            local _0x8901 = _0x6789[_0x7891] or _0x7891
+            _0x4568 = _0x4568 .. _0x8901
         end
         
-        -- Update the ChatBox text with the converted emoji text
-        ChatBox.Text = convertedText
+        _0x4567.Text = _0x4568
+        _0x4567.CursorPosition = #_0x4568 + 1
         
-        -- Reset the cursor position (if necessary)
-        ChatBox.CursorPosition = #convertedText + 1
-        
-        isUpdatingText = false  -- Unset the flag after updating the text
+        _0x7890 = false
     end
 end)
