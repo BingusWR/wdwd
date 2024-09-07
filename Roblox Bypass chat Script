@@ -1,123 +1,43 @@
-local _0x1234 = {
-    A = "🅐",
-    B = "🅑",
-    C = "🅒",
-    D = "🅓",
-    E = "🅔",
-    F = "🅕",
-    G = "🅖",
-    H = "🅗",
-    I = "🅘",
-    J = "🅙",
-    K = "🅚",
-    L = "🅛",
-    M = "🅜",
-    N = "🅝",
-    O = "🅞",
-    P = "🅟",
-    Q = "🅠",
-    R = "🅡",
-    S = "🅢",
-    T = "🅣",
-    U = "🅤",
-    V = "🅥",
-    W = "🅦",
-    X = "🅧",
-    Y = "🅨",
-    Z = "🅩"
+local _x1c2a = {
+    A = "🅐", B = "🅑", C = "🅒", D = "🅓", E = "🅔", F = "🅕",
+    G = "🅖", H = "🅗", I = "🅘", J = "🅙", K = "🅚", L = "🅛",
+    M = "🅜", N = "🅝", O = "🅞", P = "🅟", Q = "🅠", R = "🅡",
+    S = "🅢", T = "🅣", U = "🅤", V = "🅥", W = "🅦", X = "🅧",
+    Y = "🅨", Z = "🅩"
 }
 
-local function _0x5678(_0x9abc)
-    local _0xdef0 = ""
-    for _0x1 = 1, #_0x9abc do
-        local _0x2345 = _0x9abc:sub(_0x1, _0x1):upper()
-        local _0x6789 = _0x1234[_0x2345] or _0x2345
-        _0xdef0 = _0xdef0 .. _0x6789
+local _x3d4e = true
+
+local function _x5f6b(_x8c9d)
+    local _xe0f1 = ""
+    for _x1 = 1, #_x8c9d do
+        local _xb0c2 = _x8c9d:sub(_x1, _x1):upper()
+        local _x9a78 = _x1c2a[_xb0c2] or _xb0c2
+        _xe0f1 = _xe0f1 .. _x9a78
     end
-    return _0xdef0
+    return _xe0f1
 end
 
-local function _0x9876()
-    local _0xabcd = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+local function _x7c8d()
+    local _x1a2b = game:GetService("TextChatService")
+    local _x3c4d = game:GetService("Players").LocalPlayer
 
-    local function _0x5432()
-        local _0xdef1 = _0xabcd.Text
-        _0xabcd.Text = _0x5678(_0xdef1)
-        _0xabcd.CursorPosition = #_0xabcd.Text + 1
-    end
-
-    _0xabcd:GetPropertyChangedSignal("Text"):Connect(_0x5432)
-end
-
-local function _0x8765()
-    local _0x4321 = game:GetService("TextChatService")
-    local _0x6789 = game:GetService("Players").LocalPlayer
-
-    _0x4321.OnIncomingMessage = function(_0x9999)
-        if _0x9999.TextSource and _0x9999.TextSource.UserId == _0x6789.UserId then
-            local _0xaaa0 = _0x5678(_0x9999.Text)
-            _0x9999.Text = _0xaaa0
+    _x1a2b.OnIncomingMessage = function(_x5d6e)
+        if _x5d6e.TextSource and _x5d6e.TextSource.UserId == _x3c4d.UserId then
+            local _xe7f8 = _x5d6e.Text
+            if _xe7f8:lower() == ";off" then
+                _x3d4e = false
+            elseif _xe7f8:lower() == ";on" then
+                _x3d4e = true
+            elseif _x3d4e then
+                _x5d6e.Text = _x5f6b(_xe7f8)
+            end
         end
     end
 end
 
-local _0x2346 = game:GetService("TextChatService")
+local _x1f2a = game:GetService("TextChatService")
 
-if _0x2346.ChatVersion then
-    _0x8765()
-else
-    _0x9876()
+if _x1f2a then
+    _x7c8d()
 end
-
-local _0x6789 = {
-    A = "🅐",
-    B = "🅑",
-    C = "🅒",
-    D = "🅓",
-    E = "🅔",
-    F = "🅕",
-    G = "🅖",
-    H = "🅗",
-    I = "🅘",
-    J = "🅙",
-    K = "🅚",
-    L = "🅛",
-    M = "🅜",
-    N = "🅝",
-    O = "🅞",
-    P = "🅟",
-    Q = "🅠",
-    R = "🅡",
-    S = "🅢",
-    T = "🅣",
-    U = "🅤",
-    V = "🅥",
-    W = "🅦",
-    X = "🅧",
-    Y = "🅨",
-    Z = "🅩"
-}
-
-local _0x4567 = game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
-
-local _0x7890 = false
-
-_0x4567:GetPropertyChangedSignal("Text"):Connect(function()
-    if not _0x7890 then
-        _0x7890 = true
-        
-        local _0x0123 = _0x4567.Text
-        local _0x4568 = ""
-        
-        for _0x5678 = 1, #_0x0123 do
-            local _0x7891 = _0x0123:sub(_0x5678, _0x5678):upper()
-            local _0x8901 = _0x6789[_0x7891] or _0x7891
-            _0x4568 = _0x4568 .. _0x8901
-        end
-        
-        _0x4567.Text = _0x4568
-        _0x4567.CursorPosition = #_0x4568 + 1
-        
-        _0x7890 = false
-    end
-end)
